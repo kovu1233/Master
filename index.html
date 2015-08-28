@@ -1,0 +1,224 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
+<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
+<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="">
+<!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meswag List</title>
+<link href="css/boilerplate.css" rel="stylesheet" type="text/css">
+<link href="css/Main.css" rel="stylesheet" type="text/css">
+<link href="css/awesomplete.css" rel="stylesheet" type="text/css">
+<!-- 
+To learn more about the conditional comments around the html tags at the top of the file:
+paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+
+Do the following if you're using your customized build of modernizr (http://www.modernizr.com/):
+* insert the link to your js here
+* remove the link below to the html5shiv
+* add the "no-js" class to the html tags at the top
+* you can also remove the link to respond.min.js if you included the MQ Polyfill in your modernizr build 
+-->
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+<script src="js/respond.min.js"></script>
+<script src="js/awesomplete.min.js"></script>
+
+</head>
+<body bgcolor="#666666" style="color: white; font-size: 200%;">
+<div class="gridContainer clearfix">
+  <div id="div1" class="fluid">
+  <br>
+  <div style="font-size:100%;">Maha's Shopping List</div>
+  <table width="100%" height="100%" border="1" id="addRow1"> 
+  <tr>
+  <td><input id="texted1" type="text" style="width: 99.7%; height: 100%;" onKeyUp="chkImg();" class="awesomplete" list="mylist"></td>
+  <td id="img1" width="5%" height="5%"><img src="images/none.png"></td>
+  <td><div id="click1" class="okBtn" onClick="addNewRow(this.id)" style="width:100%; height:100%;">ok</div></td>
+  </tr>
+  </table>
+  
+  <datalist id="mylist">
+	<option>سمك</option>
+	<option>بصل</option>
+	<option>ثوم</option>
+	<option>مواد تنضيف</option>
+	<option>خبز</option>
+	<option>بسكت</option>
+	<option>دجاج</option>
+    <option>لحم</option>
+    <option>خيار</option>
+    <option>ويتابيكس</option>
+    <option>جبن</option>
+    <option>بيض</option>
+    <option>تمر</option>
+    <option>جفوف</option>
+    <option>اينو</option>
+    <option>صبغ شعر</option>
+    <option>ليمون</option>
+    <option>عصير</option>
+    <option>mouth wash</option>
+    <option>بطاطا</option>
+    <option>رز</option>
+    <option>زيت</option>
+    <option>زيتون</option>
+    <option>تشو</option>
+    <option>تشو حمام</option>
+    <option>تايد</option>
+    <option>سمسم</option>
+    <option>معجون اسنان</option>
+    <option>خضار</option>
+    <option>تونه</option>
+    <option>طماطه</option>
+</datalist>
+  <div id="addRow1">
+  
+  </div>
+  
+  </div>
+</div>
+</body>
+</html>
+
+<script>
+
+var newList = 1;
+var newRowz = 1;
+
+function addNewRow(numba){
+	numbaOnly = newList;
+	textedNumba = "texted" + numbaOnly;
+	addedRow = "addRow" + numbaOnly;
+	newRow = "newRow" + newRowz;
+		
+	if (document.getElementById(textedNumba).value == ""){
+		alert ("Lazem tektebeen fachy awal :)")
+	}
+	else{
+		papa = document.getElementById("texted1").value;
+		//gg = new Array();
+		document.getElementById("addRow1").innerHTML += "<table width='100%' height='100%' border='1'>";
+		for (i = 0; i < 1; i++) {
+			document.getElementById("addRow1").innerHTML += "<tr class='listBG' id=" + newRow + " onClick='selectedRow(this.id)'><td>" + papa + "</td><td>" + document.getElementById("img1").innerHTML + "</td></tr>";
+		}
+		
+		document.getElementById("addRow1").innerHTML += "</table>";
+		newRowz ++;
+		
+		document.getElementById("img1").innerHTML = "";
+	}
+			document.getElementById("texted1").focus();
+	
+	
+	
+}
+
+function selectedRow(selected){
+	sc = document.getElementById("texted1").value
+	koko = selected;
+	
+	if (document.getElementById(koko).style.backgroundColor == "red"){
+		document.getElementById(koko).remove(newRow);
+	}
+	document.getElementById(koko).style.backgroundColor = "red";	
+}
+
+
+function chkImg(){
+sc = document.getElementById('img1').innerHTML;
+
+//if (document.getElementById('img1').innerHTML == '<img src="images/none.png">'){
+	
+switch (document.getElementById("texted1").value){
+	case "semach": document.getElementById('img1').innerHTML = '<img src="images/fish.png">';
+	break;
+	case "fish": document.getElementById('img1').innerHTML = '<img src="images/fish.png">';
+	break;
+	case "samak": document.getElementById('img1').innerHTML = '<img src="images/fish.png">';
+	break;
+	case "سمك": document.getElementById('img1').innerHTML = '<img src="images/fish.png">';
+	break;
+	case "سمج": document.getElementById('img1').innerHTML = '<img src="images/fish.png">';
+	break;
+	case "رز": document.getElementById('img1').innerHTML = '<img src="images/rice.png">';
+	break;
+	case "خبز": document.getElementById('img1').innerHTML = '<img src="images/bread.png">';
+	break;
+	case "لحم": document.getElementById('img1').innerHTML = '<img src="images/meat.png">';
+	break;
+	case "دجاج": document.getElementById('img1').innerHTML = '<img src="images/chicken.png">';
+	break;
+	case "بصل": document.getElementById('img1').innerHTML = '<img src="images/onion.png">';
+	break;
+	case "ثوم": document.getElementById('img1').innerHTML = '<img src="images/garlic.png">';
+	break;
+	case "زيتون": document.getElementById('img1').innerHTML = '<img src="images/olives.png">';
+	break;
+	case "عصير": document.getElementById('img1').innerHTML = '<img src="images/juice.png">';
+	break;
+	case "بطاطا": document.getElementById('img1').innerHTML = '<img src="images/potato.png">';
+	break;
+	case "ليمون": document.getElementById('img1').innerHTML = '<img src="images/lemon.png">';
+	break;
+	case "mouth wash": document.getElementById('img1').innerHTML = '<img src="images/mouthwash.png">';
+	break;
+	case "تايد": document.getElementById('img1').innerHTML = '<img src="images/tide.png">';
+	break;
+	case "تشو": document.getElementById('img1').innerHTML = '<img src="images/tissue.png">';
+	break;
+	case "تشو حمام": document.getElementById('img1').innerHTML = '<img src="images/toiletpaper.png">';
+	break;
+	case "زيت": document.getElementById('img1').innerHTML = '<img src="images/oil.png">';
+	break;
+	case "طماطه": document.getElementById('img1').innerHTML = '<img src="images/tomato.png">';
+	break;
+	case "سمسم": document.getElementById('img1').innerHTML = '<img src="images/sesame.png">';
+	break;
+	case "معجون اسنان": document.getElementById('img1').innerHTML = '<img src="images/toothpaste.png">';
+	break;
+	case "تونه": document.getElementById('img1').innerHTML = '<img src="images/tuna.png">';
+	break;
+	case "خضره": document.getElementById('img1').innerHTML = '<img src="images/vegitables.png">';
+	break;
+	case "بسكت": document.getElementById('img1').innerHTML = '<img src="images/biscuit.png">';
+	break;
+	case "جبن": document.getElementById('img1').innerHTML = '<img src="images/cheese.png">';
+	break;
+	case "ويتابيكس": document.getElementById('img1').innerHTML = '<img src="images/cereal.png">';
+	break;
+	case "تمر": document.getElementById('img1').innerHTML = '<img src="images/dates.png">';
+	break;
+	case "بيض": document.getElementById('img1').innerHTML = '<img src="images/eggs.png">';
+	break;
+	case "صبغ شعر": document.getElementById('img1').innerHTML = '<img src="images/hair.png">';
+	break;
+	case "جفوف": document.getElementById('img1').innerHTML = '<img src="images/gloves.png">';
+	break;
+	case "اينو": document.getElementById('img1').innerHTML = '<img src="images/eno.png">';
+	break;
+	default: document.getElementById('img1').innerHTML = '<img src="images/none.png">'; break;  
+//}
+}
+}
+
+var people = ['Steven', 'Sean', 'Stefan', 'Sam', 'Nathan'];
+
+function matchPeople(input) {
+  var reg = new RegExp(input.split('').join('\\w*').replace(/\W/, ""), 'i');
+  return people.filter(function(person) {
+    if (person.match(reg)) {
+      return person;
+    }
+  });
+}
+
+function changeInput(val) {
+  var autoCompleteResult = matchPeople(val);
+  document.getElementById("result").innerHTML = autoCompleteResult;
+}
+
+</script>
