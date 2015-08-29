@@ -1,44 +1,50 @@
 <!doctype html>
-<!--[if lt IE 7]> <html class="ie6 oldie"> <![endif]-->
-<!--[if IE 7]>    <html class="ie7 oldie"> <![endif]-->
-<!--[if IE 8]>    <html class="ie8 oldie"> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="">
-<!--<![endif]-->
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Meswag List</title>
-<link href="css/boilerplate.css" rel="stylesheet" type="text/css">
 <link href="css/Main.css" rel="stylesheet" type="text/css">
 <link href="css/awesomplete.css" rel="stylesheet" type="text/css">
-<!-- 
-To learn more about the conditional comments around the html tags at the top of the file:
-paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
-
-Do the following if you're using your customized build of modernizr (http://www.modernizr.com/):
-* insert the link to your js here
-* remove the link below to the html5shiv
-* add the "no-js" class to the html tags at the top
-* you can also remove the link to respond.min.js if you included the MQ Polyfill in your modernizr build 
--->
-<!--[if lt IE 9]>
-<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-<script src="js/respond.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 <script src="js/awesomplete.min.js"></script>
-
+<script>
+function saveCourseToFile() {
+    alert("checkpoint 1");
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, onFSError);
+}
+function onFSSuccess(fileSystem) {
+    alert("checkpoint 2");
+    consol.log("Opened file system: " + fileSystem.name);
+    fileSystem.root.getFile("course.oerk", {create:true, exclusive:false}, gotFileEntry, onFSError);
+}
+function gotFileEntry(fileEntry) {
+    console.log("checkpoint 3");
+    fileEntry.createWriter(gotFileWriter, onFSError);
+}
+function gotFileWriter(writer) {
+    writer.onwrite = function(evt) {
+    console.log("checkpoint 4: write success!");
+    };
+    writer.write("test test test");
+}
+function onFSError(err) {
+    console.log(err.code);
+}
+</script>
+<script type="text/javascript">
+    function init() {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    }
+</script>
 </head>
-<body bgcolor="#666666" style="color: white; font-size: 200%;">
-<div class="gridContainer clearfix">
-  <div id="div1" class="fluid">
-  <br>
-  <div style="font-size:100%;">Maha's Shopping List</div>
-  <table width="100%" height="100%" border="1" id="addRow1"> 
+<body bgcolor="#666666" style="color: white; font-size: 150%;" onload="init()">
+  <center><img src="images/title.png" width="60%"></center>
+  <table width="100%" border="1" id="addRow1"> 
   <tr>
   <td><input id="texted1" type="text" style="width: 99.7%; height: 100%;" onKeyUp="chkImg();" class="awesomplete" list="mylist"></td>
-  <td id="img1" width="5%" height="5%"><img src="images/none.png"></td>
-  <td><div id="click1" class="okBtn" onClick="addNewRow(this.id)" style="width:100%; height:100%;">ok</div></td>
+  <td id="img1" width="15%" height="15%"><img src="images/none.png"></td>
+  <td><input type="submit" id="click1" class="okBtn" onClick="addNewRow(this.id); saveCourseToFile();" style="width:100%; height:100%;" value="ok"></td>
   </tr>
   </table>
   
@@ -78,9 +84,7 @@ Do the following if you're using your customized build of modernizr (http://www.
   <div id="addRow1">
   
   </div>
-  
-  </div>
-</div>
+
 </body>
 </html>
 
@@ -109,7 +113,7 @@ function addNewRow(numba){
 		document.getElementById("addRow1").innerHTML += "</table>";
 		newRowz ++;
 		
-		document.getElementById("img1").innerHTML = "";
+		document.getElementById("img1").innerHTML = "<img src='images/none.png'>";
 	}
 			document.getElementById("texted1").focus();
 	
