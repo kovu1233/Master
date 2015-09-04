@@ -8,37 +8,54 @@
 <link href="css/awesomplete.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 <script src="js/awesomplete.min.js"></script>
+
 <script>
-function saveCourseToFile() {
-    alert("checkpoint 1");
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, onFSSuccess, onFSError);
-}
-function onFSSuccess(fileSystem) {
-    alert("checkpoint 2");
-    consol.log("Opened file system: " + fileSystem.name);
-    fileSystem.root.getFile("course.oerk", {create:true, exclusive:false}, gotFileEntry, onFSError);
-}
-function gotFileEntry(fileEntry) {
-    console.log("checkpoint 3");
-    fileEntry.createWriter(gotFileWriter, onFSError);
-}
-function gotFileWriter(writer) {
-    writer.onwrite = function(evt) {
-    console.log("checkpoint 4: write success!");
-    };
-    writer.write("test test test");
-}
-function onFSError(err) {
-    console.log(err.code);
+function loadData() {
+	dvid = document.getElementById('dvid').value;
+	
+    if (dvid == "") {
+		document.getElementById("txtHintLogin").style.background = "black";
+        document.getElementById("txtHintLogin").innerHTML = "Device not Registered. Please <b>Register</b> before logging in.";
+        return;
+	}
+    else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHintLogin").innerHTML = xmlhttp.responseText;
+            }
+        }
+        xmlhttp.open("POST","http://slikke.net/test/login.php?divd=" + dvid, true);
+		xmlhttp.send();
+    }
 }
 </script>
+
 <script type="text/javascript">
     function init() {
         document.addEventListener("deviceready", onDeviceReady, false);
     }
+	
+	function onDeviceReady(){
+		document.addEventListener("menubutton", onMenuKeyDown, false);
+	}
+	
+	function onMenuKeyDown() {
+		alert ("menu :)");
+		console.log("open the menu");
+        menuDiv.style.display="block";
+        menuOpen = true;
+	}
 </script>
 </head>
 <body bgcolor="#666666" style="color: white; font-size: 150%;" onload="init()">
+<input type="text" value="hi" id="dvid" style="position: absolute;">
   <center><img src="images/title.png" width="60%"></center>
   <table width="100%" border="1" id="addRow1"> 
   <tr>
@@ -207,22 +224,6 @@ switch (document.getElementById("texted1").value){
 	default: document.getElementById('img1').innerHTML = '<img src="images/none.png">'; break;  
 //}
 }
-}
-
-var people = ['Steven', 'Sean', 'Stefan', 'Sam', 'Nathan'];
-
-function matchPeople(input) {
-  var reg = new RegExp(input.split('').join('\\w*').replace(/\W/, ""), 'i');
-  return people.filter(function(person) {
-    if (person.match(reg)) {
-      return person;
-    }
-  });
-}
-
-function changeInput(val) {
-  var autoCompleteResult = matchPeople(val);
-  document.getElementById("result").innerHTML = autoCompleteResult;
 }
 
 </script>
