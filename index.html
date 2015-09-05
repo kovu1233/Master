@@ -19,8 +19,18 @@
 		document.getElementById('dvid').value = device.uuid;
 	}
 	
-	//function onMenuKeyDown() {
-   		//document.getElementById("texted1").value = "hi";
+	var menuFlag = "false";
+	function onMenuKeyDown() {
+		if (menuFlag == "false"){
+   			document.getElementById("menufufu").style.display = "inline-block";
+			menuFlag = "true";
+		}
+		else{
+			document.getElementById("menufufu").style.display = "none";
+			menuFlag = "false";	
+		}
+	}
+	
 	function saveit(){
 		var htmlRequest = document.getElementById('addRow1').innerHTML;
 		var dvid = document.getElementById('dvid').value;
@@ -40,7 +50,7 @@
     			}
   			}
 			//q=" + q + "&r=" + r,
-			xmlhttp.open("POST","saveas.php?divd=" + dvid + "&savedID=" + savedID + "&htmlRequest=" + htmlRequest, true);
+			xmlhttp.open("POST","http://slikke.net/MobileApps/Meswag/saveas.php?divd=" + dvid + "&savedID=" + savedID + "&htmlRequest=" + htmlRequest, true);
 			xmlhttp.send();
 			document.getElementById("addRow1").innerHTML = "Saving...";
 		}
@@ -101,7 +111,7 @@
 </script>
 </head>
 <body bgcolor="#666666" style="color: white; font-size: 150%;" onload="init()">
-<input type="text" value="hi" id="dvid" style="position: absolute;">
+<input type="text" id="dvid" style="position: absolute;">
   <center><img src="images/title.png" width="60%"></center>
   <table width="100%" border="1" id="addRow1"> 
   <tr>
