@@ -72,7 +72,7 @@
 				document.getElementById("loadWindow").innerHTML = xmlhttp.responseText;
     		}
   		}
-		xmlhttp.open("POST","loading.php?divd=" + dvid, true);
+		xmlhttp.open("POST","http://slikke.net/MobileApps/Meswag/loading.php?divd=" + dvid, true);
 		xmlhttp.send();
 	}
 	
@@ -97,7 +97,7 @@
 				}
 			}
 				//q=" + q + "&r=" + r,
-			xmlhttp.open("POST","loadas.php?divd=" + dvid + "&loadID=" + loadTxt, true);
+			xmlhttp.open("POST","http://slikke.net/MobileApps/Meswag/loadas.php?divd=" + dvid + "&loadID=" + loadTxt, true);
 			xmlhttp.send();
 			document.getElementById("loadWindow").style.display = "none";
 			document.getElementById("addRow1").innerHTML = "Initializing...";
@@ -111,7 +111,7 @@
 </script>
 </head>
 <body bgcolor="#666666" style="color: white; font-size: 150%;" onload="init()">
-<input type="text" id="dvid" style="position: absolute;">
+<input type="hidden" id="dvid" style="position: absolute;">
   <center><img src="images/title.png" width="60%"></center>
   <table width="100%" border="1" id="addRow1"> 
   <tr>
