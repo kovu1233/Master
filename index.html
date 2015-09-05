@@ -9,34 +9,6 @@
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 <script src="js/awesomplete.min.js"></script>
 
-<script>
-function loadData() {
-	dvid = document.getElementById('dvid').value;
-	
-    if (dvid == "") {
-		document.getElementById("txtHintLogin").style.background = "black";
-        document.getElementById("txtHintLogin").innerHTML = "Device not Registered. Please <b>Register</b> before logging in.";
-        return;
-	}
-    else { 
-        if (window.XMLHttpRequest) {
-            // code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            // code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById("txtHintLogin").innerHTML = xmlhttp.responseText;
-            }
-        }
-        xmlhttp.open("POST","http://slikke.net/test/login.php?divd=" + dvid, true);
-		xmlhttp.send();
-    }
-}
-</script>
-
 <script type="text/javascript">
     function init() {
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -44,28 +16,88 @@ function loadData() {
 	
 	function onDeviceReady(){
 		document.addEventListener("menubutton", onMenuKeyDown, false);
+		document.getElementById('dvid').value = device.uuid;
 	}
 	
-	function onMenuKeyDown() {
-		function myFunction() {
-    		var saveTxt = prompt("Save As:", "save01");
-		    if (saveTxt){
-     			if (window.XMLHttpRequest) {
-	            	xmlhttp = new XMLHttpRequest();
-    	    	} 
-				else {
-           			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        		}
-        		xmlhttp.onreadystatechange = function() {
-            		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                		document.getElementById("txtHintLogin").innerHTML = xmlhttp.responseText;
-            		}
-        			xmlhttp.open("POST","saveas.php?divd=" + dvid, true);
-					xmlhttp.send();
-    			}   		
-			} 
+	//function onMenuKeyDown() {
+   		//document.getElementById("texted1").value = "hi";
+	function saveit(){
+		var htmlRequest = document.getElementById('addRow1').innerHTML;
+		var dvid = document.getElementById('dvid').value;
+		var saveTxt = prompt("Save As:", "save01");
+	    if (saveTxt){
+			var savedID = saveTxt;
+			var xmlhttp;
+			if (window.XMLHttpRequest){
+				xmlhttp=new XMLHttpRequest();
+  			}
+			else{
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					document.getElementById("addRow1").innerHTML = xmlhttp.responseText;
+    			}
+  			}
+			//q=" + q + "&r=" + r,
+			xmlhttp.open("POST","saveas.php?divd=" + dvid + "&savedID=" + savedID + "&htmlRequest=" + htmlRequest, true);
+			xmlhttp.send();
+			document.getElementById("addRow1").innerHTML = "Saving...";
 		}
 	}
+	
+	function loadit(){
+		document.getElementById("loadWindow").style.display = "inline-block";
+		var htmlRequest = document.getElementById('addRow1').innerHTML;
+		var dvid = document.getElementById('dvid').value;
+		var xmlhttp;
+		if (window.XMLHttpRequest){
+			xmlhttp=new XMLHttpRequest();
+  		}
+		else{
+			xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+			if (xmlhttp.readyState==4 && xmlhttp.status==200){
+				document.getElementById("loadWindow").innerHTML = xmlhttp.responseText;
+    		}
+  		}
+		xmlhttp.open("POST","loading.php?divd=" + dvid, true);
+		xmlhttp.send();
+	}
+	
+	function loadingit(val){
+		if (val=="CLOSE"){
+			document.getElementById("loadWindow").style.display = "none";
+		}
+		else{
+			var dvid = document.getElementById('dvid').value;
+			var loadTxt = val;
+	
+			var xmlhttp;
+			if (window.XMLHttpRequest){
+				xmlhttp=new XMLHttpRequest();
+			}
+			else{
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					document.getElementById("addRow1").innerHTML = xmlhttp.responseText;
+				}
+			}
+				//q=" + q + "&r=" + r,
+			xmlhttp.open("POST","loadas.php?divd=" + dvid + "&loadID=" + loadTxt, true);
+			xmlhttp.send();
+			document.getElementById("loadWindow").style.display = "none";
+			document.getElementById("addRow1").innerHTML = "Initializing...";
+		}
+	}
+	
+	function quitit(){
+		navigator.app.exitApp();	
+	}
+
 </script>
 </head>
 <body bgcolor="#666666" style="color: white; font-size: 150%;" onload="init()">
@@ -75,7 +107,7 @@ function loadData() {
   <tr>
   <td><input id="texted1" type="text" style="width: 99.7%; height: 100%;" onKeyUp="chkImg();" class="awesomplete" list="mylist"></td>
   <td id="img1" width="15%" height="15%"><img src="images/none.png"></td>
-  <td><input type="submit" id="click1" class="okBtn" onClick="addNewRow(this.id); saveCourseToFile();" style="width:100%; height:100%;" value="ok"></td>
+  <td><input type="submit" id="click1" class="okBtn" onClick="addNewRow(this.id);" style="width:100%; height:100%;" value="ok"></td>
   </tr>
   </table>
   
@@ -113,8 +145,14 @@ function loadData() {
     <option>تونه</option>
     <option>طماطه</option>
 </datalist>
-  <div id="addRow1">
+  <div id="menufufu">
+  	<div class="Btnz" style="margin-bottom:2%;" onClick="saveit();">Save List</div>
+    <div class="Btnz" style="margin-bottom:2%;" onClick="loadit();">Load List</div>
+    <div class="Btnz" style="margin-bottom:2%;" onClick="quitit();">Quit</div>
+  </div>
   
+  <div id="loadWindow">
+  	Loading...
   </div>
 
 </body>
@@ -147,10 +185,7 @@ function addNewRow(numba){
 		
 		document.getElementById("img1").innerHTML = "<img src='images/none.png'>";
 	}
-			document.getElementById("texted1").focus();
-	
-	
-	
+			document.getElementById("texted1").focus();	
 }
 
 function selectedRow(selected){
