@@ -47,10 +47,24 @@ function loadData() {
 	}
 	
 	function onMenuKeyDown() {
-		alert ("menu :)");
-		console.log("open the menu");
-        menuDiv.style.display="block";
-        menuOpen = true;
+		function myFunction() {
+    		var saveTxt = prompt("Save As:", "save01");
+		    if (saveTxt){
+     			if (window.XMLHttpRequest) {
+	            	xmlhttp = new XMLHttpRequest();
+    	    	} 
+				else {
+           			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        		}
+        		xmlhttp.onreadystatechange = function() {
+            		if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                		document.getElementById("txtHintLogin").innerHTML = xmlhttp.responseText;
+            		}
+        			xmlhttp.open("POST","saveas.php?divd=" + dvid, true);
+					xmlhttp.send();
+    			}   		
+			} 
+		}
 	}
 </script>
 </head>
@@ -64,6 +78,7 @@ function loadData() {
   <td><input type="submit" id="click1" class="okBtn" onClick="addNewRow(this.id); saveCourseToFile();" style="width:100%; height:100%;" value="ok"></td>
   </tr>
   </table>
+  
   
   <datalist id="mylist">
 	<option>سمك</option>
